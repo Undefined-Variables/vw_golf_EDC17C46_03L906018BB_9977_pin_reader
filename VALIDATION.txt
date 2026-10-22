@@ -1,0 +1,33 @@
+ECU PIN Reader 1.0 - release validation, 21 October 2026
+
+15 automated regression tests passed on Python in the Linux build environment.
+The actual original backup decoded to PIN 14338, with its VIN and all nine valid
+records. The same result was obtained from separate images and combined raw data.
+
+The translated cipher reproduced all 66 mask words in the earlier Ghidra
+firmware-emulation log (33 for each of two processor IDs).
+
+A synthetic change to the stored PIN produced the deliberately changed PIN,
+labelled as a candidate. Another synthetic dataset used the separate reference
+CPU-ID and the original emulator's mask output, and recovered that reference's
+known PIN and a different synthetic VIN. These tests demonstrate that the
+program computes from the chosen input rather than returning a fixed PIN.
+These synthetic cases are not additional real-vehicle validation.
+
+Rejected inputs included a bad record checksum, a conflicting valid record,
+conflicting VINs, a mismatched CPU-ID/EEPROM pair, missing record types, each
+changed fingerprinted code/table region, truncated/empty files, an 8 KB cluster
+dump, flash without EEPROM and EEPROM without flash.
+
+CLI JSON export worked with spaces in the input path, preserved the source
+byte-for-byte and refused to overwrite existing reports or source files.
+Corruption was also rejected with Python optimization (-O) enabled.
+
+Testing limits:
+- The Windows batch launcher and graphical window have not been exercised on
+  Windows in this build session. They use the standard Python/Tkinter interface.
+  The command-line reader and decoding functions were executed and tested.
+- GUI startup without a graphical display returns a clear error and CLI guidance.
+- No live vehicle, dongle, VCDS login or key programming was involved.
+- Only the original verified real ECU backup is independently validated here.
+  Other accepted inputs receive candidate status until independently verified.
