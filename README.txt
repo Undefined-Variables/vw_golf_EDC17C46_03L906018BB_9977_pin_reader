@@ -1,6 +1,7 @@
 ECU PIN READER 1.0
 ==================
 Offline Python reader for the verified Bosch EDC17C46 / 03L906018BB 9977 layout.
+
 Created 21 October 2026.
 
 QUICK START ON WINDOWS
@@ -9,6 +10,11 @@ QUICK START ON WINDOWS
 3. Browse to your full ECU backup, then click Read PIN.
 4. For separate raw files, choose the EEPROM in the first box and its matching
    flash in the second box. Leave the flash box empty for a full backup.
+
+A full ECU back up can be obtained using a tool such as KESSv2 / KESSv3 ETC... 
+The reader expects a full ECU back up file, I had to remove my ECU from the car 
+and bench boot it using kess V2. This is far from ideal but obtaining this data 
+via OBD is currently not possible using the tools I currently own. 
 
 Requires Python 3.10 or later, with Tcl/Tk for the desktop window. No pip packages,
 dongle, Ghidra, internet access or vehicle connection are needed to run the reader.
@@ -44,7 +50,7 @@ container formats are unsupported. This is not a universal ECU PIN extractor.
 HOW RESULTS ARE LABELLED
 PIN / SKC: Your previously verified flash/EEPROM hashes match exactly. The PIN
 is still calculated from the bytes supplied; it is not substituted from a table.
-For the original verified backup the result is 14338, with nine matching records.
+For the original verified backup with all nine records matching.
 
 CANDIDATE PIN / SKC: A different/changed dump passes this profile's identity,
 code/table fingerprints, record checksums, structural checks and consensus.
@@ -86,12 +92,6 @@ profile.py        - supported firmware fingerprints and known backup hashes
 start_reader.bat  - Windows launcher
 test_reader.py    - tests using the separately saved recovery package
 VALIDATION.txt    - checks run for this release and remaining testing limits
-
-REPRODUCING THE RELEASE TESTS
-Extract your earlier Golf-GTD-PIN-Recovery-Package-2026-10-20.zip separately, then:
-  python test_reader.py --source-dir "path to extracted recovery package"
-The tests use the original firmware-emulation log, source dump and golden result.
-Synthetic modified test data stays in memory or temporary directories.
 
 PROVENANCE
 The arithmetic is the translation previously checked against execution of the
